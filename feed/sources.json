@@ -1,0 +1,112 @@
+{
+ "_note": "Every source: official public feed. Only headline, date, short summary and a link back are republished. Federal works (FBI/IC3, CISA, FTC) are US public domain (17 U.S.C. \u00a7105). Local/state government feeds: public RSS meant for syndication; review each site's terms before enabling and keep 'link back + attribution'. 'scamFilter' keeps only scam/fraud items from general news feeds.",
+ "sources": [
+  {
+   "id": "ic3",
+   "name": "FBI Internet Crime Complaint Center (IC3)",
+   "url": "https://www.ic3.gov/PSA/RSS",
+   "regions": [
+    "national"
+   ],
+   "license": "US federal public domain",
+   "scamFilter": false,
+   "enabled": true
+  },
+  {
+   "id": "cisa-news",
+   "name": "CISA News",
+   "url": "https://www.cisa.gov/news.xml",
+   "regions": [
+    "national"
+   ],
+   "license": "US federal public domain",
+   "scamFilter": true,
+   "enabled": true
+  },
+  {
+   "id": "doj",
+   "name": "U.S. Department of Justice",
+   "url": "https://www.justice.gov/news/rss?type=press_release",
+   "regions": [
+    "national"
+   ],
+   "license": "US federal public domain",
+   "scamFilter": true,
+   "placeHints": true,
+   "enabled": true,
+   "strictFilter": true
+  },
+  {
+   "id": "ftc-alerts",
+   "name": "FTC Consumer Alerts",
+   "url": "https://consumer.ftc.gov/consumer-alerts/rss",
+   "regions": [
+    "national"
+   ],
+   "license": "US federal public domain",
+   "scamFilter": false,
+   "enabled": true,
+   "_status": "URL returned 404 from our test box (site may block non-browser fetches); verify the exact feed URL on the first GitHub Action run"
+  },
+  {
+   "id": "fairfax-police",
+   "name": "Fairfax County Police (VA)",
+   "url": "https://www.fairfaxcounty.gov/police/rss.xml",
+   "regions": [
+    "state:VA",
+    "metro:dc-nova"
+   ],
+   "license": "Local government public RSS \u2014 terms review pending",
+   "scamFilter": true,
+   "enabled": true
+  },
+  {
+   "id": "fairfax-news",
+   "name": "Fairfax County News Center (VA)",
+   "url": "https://www.fairfaxcounty.gov/news/rss.xml",
+   "regions": [
+    "state:VA",
+    "metro:dc-nova"
+   ],
+   "license": "Local government public RSS \u2014 terms review pending",
+   "scamFilter": true,
+   "enabled": true
+  },
+  {
+   "id": "memphis-city",
+   "name": "City of Memphis (TN)",
+   "url": "https://www.memphistn.gov/feed/",
+   "regions": [
+    "state:TN",
+    "metro:memphis"
+   ],
+   "license": "Local government public RSS \u2014 terms review pending",
+   "scamFilter": true,
+   "enabled": true
+  },
+  {
+   "id": "va-oag",
+   "name": "Virginia Attorney General",
+   "url": "https://www.oag.state.va.us/media-center/news-releases?format=feed&type=rss",
+   "regions": [
+    "state:VA"
+   ],
+   "license": "State government \u2014 terms review pending",
+   "scamFilter": true,
+   "enabled": false,
+   "_status": "HTTP 403 to automated requests; left OFF. Ask the office for a feed or permission."
+  },
+  {
+   "id": "tn-consumer",
+   "name": "Tennessee Division of Consumer Affairs",
+   "url": "https://www.tn.gov/commerce/news.html",
+   "regions": [
+    "state:TN"
+   ],
+   "license": "State government \u2014 HTML page, no RSS found",
+   "scamFilter": true,
+   "enabled": false,
+   "_status": "No RSS found; we don't scrape HTML. Left OFF until an official feed or permission exists."
+  }
+ ]
+}

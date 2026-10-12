@@ -1,0 +1,27 @@
+# Free: builds the signed Local Scam Alerts feed every 3 hours and publishes it to GitHub Pages.
+# Needs: repo secret NATARTA_FEED_SECRET_KEY; Settings → Pages → Source: GitHub Actions.
+name: scam-feed
+on:
+  schedule: [{ cron: '17 */3 * * *' }]
+  workflow_dispatch: {}
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: scam-feed, cancel-in-progress: true }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install --no-audit --no-fund
+      - run: node feed/build-feed.mjs
+        env: { NATARTA_FEED_SECRET_KEY: '${{ secrets.NATARTA_FEED_SECRET_KEY }}' }
+      - run: node scripts/update-blocklist.mjs && cp dist-rulepack/rulepack.json feed-out/rulepack.json
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: feed-out }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages }
+    steps:
+      - uses: actions/deploy-pages@v4
