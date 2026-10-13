@@ -107,6 +107,54 @@
    "scamFilter": true,
    "enabled": false,
    "_status": "No RSS found; we don't scrape HTML. Left OFF until an official feed or permission exists."
+  },
+  {
+   "id": "npr",
+   "name": "NPR News",
+   "url": "https://feeds.npr.org/1001/rss.xml",
+   "regions": [
+    "truth"
+   ],
+   "kind": "news",
+   "license": "Headline + link back (NPR RSS terms)",
+   "scamFilter": false,
+   "enabled": true
+  },
+  {
+   "id": "pbs",
+   "name": "PBS NewsHour",
+   "url": "https://www.pbs.org/newshour/feeds/rss/headlines",
+   "regions": [
+    "truth"
+   ],
+   "kind": "news",
+   "license": "Headline + link back (PBS RSS)",
+   "scamFilter": false,
+   "enabled": true
+  },
+  {
+   "id": "bbc",
+   "name": "BBC News",
+   "url": "https://feeds.bbci.co.uk/news/rss.xml",
+   "regions": [
+    "truth"
+   ],
+   "kind": "news",
+   "license": "Headline + link back (BBC RSS terms)",
+   "scamFilter": false,
+   "enabled": true
+  },
+  {
+   "id": "snopes",
+   "name": "Snopes fact checks",
+   "url": "https://www.snopes.com/feed/",
+   "regions": [
+    "truth"
+   ],
+   "kind": "factcheck",
+   "license": "Headline + link back (Snopes RSS)",
+   "scamFilter": false,
+   "enabled": true
   }
  ]
 }

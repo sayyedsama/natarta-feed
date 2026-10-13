@@ -69,7 +69,7 @@ for (const { src, items, error } of results) {
     if (src.strictFilter && !STRICT_RE.test(text)) continue;
     if (NOT_CONSUMER_RE.test(text)) continue;
     kept++;
-    const alert = { id: `${src.id}:${it.link}`, title: it.title, summary: it.summary, link: it.link, date: Number.isFinite(t) ? new Date(t).toISOString() : null, source: src.name, sourceId: src.id, license: src.license };
+    const alert = { id: `${src.id}:${it.link}`, title: it.title, summary: it.summary, link: it.link, date: Number.isFinite(t) ? new Date(t).toISOString() : null, source: src.name, sourceId: src.id, license: src.license, kind: src.kind ?? 'alert' };
     const regs = new Set(src.regions.map((r) => r.replace(':', '-')));
     if (src.placeHints) for (const r of placeRegions(it.title + ' ' + it.summary)) regs.add(r);
     for (const r of regs) (byRegion[r] ??= []).push(alert);
@@ -83,11 +83,28 @@ fs.mkdirSync(OUT, { recursive: true });
 const regions = {};
 for (const [region, list] of Object.entries(byRegion)) {
   const seen = new Set();
-  const alerts = list.filter((a) => !seen.has(a.link) && seen.add(a.link)).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '')).slice(0, 25);
+  let alerts = list.filter((a) => !seen.has(a.link) && seen.add(a.link)).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+  // Truth feed: a balanced mix (up to 6 per outlet) instead of whoever posts most.
+  if (region === 'truth') { const per = {}; alerts = alerts.filter((a) => (per[a.sourceId] = (per[a.sourceId] ?? 0) + 1) <= 6); }
+  alerts = alerts.slice(0, 25);
   const body = JSON.stringify({ region, generatedAt, alerts });
   fs.writeFileSync(path.join(OUT, `${region}.json`), JSON.stringify({ body, sig: sign(body) }));
   regions[region] = alerts.length;
 }
+
+// FCC unwanted-call complaints (public open data, no key): caller-ID numbers reported 3+ times in ~120 days.
+// Caller ID is often spoofed, so the app only ever says "reported N times", never "this is a scammer".
+try {
+  const since = new Date(Date.now() - 120 * 864e5).toISOString().slice(0, 10);
+  const q = `$select=caller_id_number,count(*) as n&$where=caller_id_number!='' and issue_date>'${since}'&$group=caller_id_number&$having=count(*)>=3&$order=n DESC&$limit=20000`;
+  const res = await fetch(`https://opendata.fcc.gov/resource/vakf-fz8e.json?${encodeURI(q)}`, { signal: AbortSignal.timeout(60000) });
+  const rows = res.ok ? await res.json() : [];
+  const numbers = {};
+  for (const r of rows) { const d = String(r.caller_id_number).replace(/\D/g, '').replace(/^1(?=\d{10}$)/, ''); if (d.length === 10) numbers[d] = (numbers[d] ?? 0) + Number(r.n); }
+  const body = JSON.stringify({ kind: 'fcc-phones', generatedAt, since, source: 'FCC Consumer Complaints Data - Unwanted Calls (opendata.fcc.gov, public domain)', numbers });
+  fs.writeFileSync(path.join(OUT, 'phones.json'), JSON.stringify({ body, sig: sign(body) }));
+  report.push({ id: 'fcc-phones', ok: true, items: Object.keys(numbers).length });
+} catch (e) { report.push({ id: 'fcc-phones', ok: false, error: e.message }); }
 fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify({ generatedAt, regions, report }, null, 1));
 console.log(JSON.stringify({ generatedAt, regions, report }, null, 1));
 
