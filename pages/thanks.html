@@ -1,47 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>You're a Natarta Guardian</title>
-  <meta name="description" content="Thank you for supporting Natarta. You are a Guardian." />
-  <style>
-    :root { color-scheme: dark; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0a1628; color: #e8eef7; padding: 24px;
-    }
-    .card {
-      max-width: 420px; width: 100%; text-align: center;
-      background: #12233a; border: 1px solid #1e3a5f; border-radius: 20px; padding: 36px 28px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.35);
-    }
-    .mark {
-      width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 16px;
-      background: linear-gradient(135deg, #3ec7d9, #e8c35a);
-      display: flex; align-items: center; justify-content: center; font-size: 28px;
-    }
-    h1 { font-size: 1.45rem; font-weight: 650; margin: 0 0 10px; letter-spacing: -0.02em; }
-    p { margin: 0 0 14px; line-height: 1.45; color: #b7c5d8; font-size: 1rem; }
-    .name { color: #7dd3e8; font-weight: 600; }
-    a.btn {
-      display: inline-block; margin-top: 10px; padding: 14px 22px; border-radius: 999px;
-      text-decoration: none; font-weight: 600; color: #0a1628;
-      background: linear-gradient(90deg, #3ec7d9, #e8c35a);
-    }
-    .fine { margin-top: 18px; font-size: 0.8rem; color: #7a8aa0; }
-  </style>
-</head>
-<body>
-  <main class="card">
-    <div class="mark" aria-hidden="true">🛡</div>
-    <h1>Guardian · thank you</h1>
-    <p>You just helped keep Natarta free for everyone. That makes you a <span class="name">Guardian</span> in this community.</p>
-    <p>Your tip keeps the checks honest, private, and always on.</p>
-    <a class="btn" href="natarta://guardian">Open Natarta</a>
-    <p class="fine">If the app does not open, return to Natarta on your phone. You are already a Guardian there.</p>
-  </main>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thank you, Guardian · Natarta</title>
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0B0F2A;color:#F1F5F9;font:18px/1.5 -apple-system,system-ui,sans-serif;text-align:center;padding:24px;box-sizing:border-box}
+main{max-width:420px}h1{font-size:30px;margin:12px 0}p{color:#94A3B8}
+a.btn{display:block;margin:22px 0 10px;padding:16px;border-radius:16px;background:#7DD3FC;color:#0B0F2A;font-weight:800;text-decoration:none}
+a.alt{color:#7DD3FC;font-size:15px}small{display:block;margin-top:28px;color:#64748B;font-size:13px}
+</style></head><body><main>
+<div style="font-size:52px" aria-hidden="true">💙</div>
+<h1>Thank you, Guardian</h1>
+<p>Your tip keeps Natarta free for everyone. Tap below to add your Guardian badge in the app.</p>
+<a class="btn" id="open" href="natarta://guardian">Open Natarta</a>
+<a class="alt" href="exp://192.168.1.181:8081/--/guardian">Testing in Expo Go? Open here</a>
+<p id="fallback" hidden>Didn't open? That's OK. Your tip went through either way. Open Natarta on the phone where it's installed and tap this page's button there.</p>
+<small>You can close this page any time. The badge is a thank-you saved only on your phone. No account, and nothing about you is stored.</small>
+</main>
+<script>
+document.getElementById('open').addEventListener('click',function(){setTimeout(function(){if(!document.hidden)document.getElementById('fallback').hidden=false;},1800);});
+</script></body></html>
