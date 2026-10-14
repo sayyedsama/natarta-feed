@@ -9,12 +9,13 @@ a.alt{color:#7DD3FC;font-size:15px}small{display:block;margin-top:28px;color:#64
 </style></head><body><main>
 <div style="font-size:52px" aria-hidden="true">💙</div>
 <h1>Thank you, Guardian</h1>
-<p>Your tip keeps Natarta free for everyone. Tap below to add your Guardian badge in the app.</p>
+<p>Your support helps keep Natarta free for everyone. Tap below to add your Guardian badge in the app.</p>
 <a class="btn" id="open" href="natarta://guardian">Open Natarta</a>
-<a class="alt" href="exp://192.168.1.181:8081/--/guardian">Testing in Expo Go? Open here</a>
-<p id="fallback" hidden>Didn't open? That's OK. Your tip went through either way. Open Natarta on the phone where it's installed and tap this page's button there.</p>
-<small>You can close this page any time. The badge is a thank-you saved only on your phone. No account, and nothing about you is stored.</small>
+<a class="alt" id="dev" href="exp://192.168.1.181:8081/--/guardian" hidden>Developer preview: open in Expo Go</a>
+<p id="fallback" hidden>Didn’t open? No problem. Open this page on the phone where Natarta is installed and tap the button there.</p>
+<small>The Guardian badge is a thank-you saved only on your phone. It isn’t linked to your payment or to you, and no account is needed. Questions? <a class="alt" href="mailto:support.natarta@gmail.com">support.natarta@gmail.com</a><br><br>Natarta™ and the N-shield logo are trademarks. App design, code and text © 2026 Natarta. All rights reserved.</small>
 </main>
 <script>
+if(new URLSearchParams(location.search).get('dev')==='1')document.getElementById('dev').hidden=false;
 document.getElementById('open').addEventListener('click',function(){setTimeout(function(){if(!document.hidden)document.getElementById('fallback').hidden=false;},1800);});
 </script></body></html>
