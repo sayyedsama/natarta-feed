@@ -37,7 +37,25 @@ nav.foot a{display:inline-block;min-height:44px;line-height:44px}
 <body>
 <main class="wrap">
 <header aria-label="Natarta">
-<svg width="36" height="36" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="g" x1="20" x2="80"><stop offset="0" stop-color="#3DD6F5"/><stop offset="1" stop-color="#F5B942"/></linearGradient></defs><path d="M28 18v52l22 16 22-16V18" fill="none" stroke="url(#g)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><path d="M28 18l44 40" stroke="url(#g)" stroke-width="8" stroke-linecap="round"/></svg>
+<svg width="40" height="40" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  
+  <g transform="translate(0 30.72) scale(10.24)">
+  <defs>
+    <linearGradient id="ms" x1="20" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3DD6F5"/><stop offset="0.35" stop-color="#3DD6F5"/><stop offset="0.85" stop-color="#F5B942"/><stop offset="1" stop-color="#F5B942"/>
+    </linearGradient>
+    <radialGradient id="mf" cx="50" cy="66.5" r="11" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="0.3" stop-color="#FFE7A3"/><stop offset="0.62" stop-color="#F5B942"/><stop offset="1" stop-color="#3DD6F5" stop-opacity="0.85"/>
+    </radialGradient>
+    <filter id="mg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
+    <filter id="mg2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <path d="M69 14 L72 14 Q80 14 80 22 L80 58 Q80 66 73.5 71.5 L56 85.5 Q50 90 44 85.5 L26.5 71.5 Q20 66 20 58 L20 24 C20 13.5 30.5 12 36.5 18.5 L76.5 56.5" fill="none" stroke="url(#ms)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.65" filter="url(#mg)"/>
+  <path d="M50 46 C53 52 58.5 57 58.5 64.5 A8.5 8.5 0 0 1 41.5 64.5 C41.5 57 47 52 50 46 Z" fill="#F5B942" opacity="0.7" filter="url(#mg2)"/>
+  <path d="M69 14 L72 14 Q80 14 80 22 L80 58 Q80 66 73.5 71.5 L56 85.5 Q50 90 44 85.5 L26.5 71.5 Q20 66 20 58 L20 24 C20 13.5 30.5 12 36.5 18.5 L76.5 56.5" fill="none" stroke="url(#ms)" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M50 46 C53 52 58.5 57 58.5 64.5 A8.5 8.5 0 0 1 41.5 64.5 C41.5 57 47 52 50 46 Z" fill="url(#mf)"/>
+  <ellipse cx="50" cy="66.5" rx="2.6" ry="3.8" fill="#FFFFFF" opacity="0.85"/></g>
+</svg>
 <span class="brand">Natarta</span>
 </header>
 <div class="bar" role="presentation"></div>
