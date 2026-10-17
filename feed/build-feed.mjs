@@ -105,6 +105,22 @@ try {
   fs.writeFileSync(path.join(OUT, 'phones.json'), JSON.stringify({ body, sig: sign(body) }));
   report.push({ id: 'fcc-phones', ok: true, items: Object.keys(numbers).length });
 } catch (e) { report.push({ id: 'fcc-phones', ok: false, error: e.message }); }
+// Happening now: curated items (own words, official source + date), schema-checked, then signed like every other file.
+try {
+  const KEYS = ['texts', 'emails', 'mail', 'links', 'phone', 'qr', 'news', 'media'];
+  const { items } = JSON.parse(fs.readFileSync(path.join(here, 'happening.json'), 'utf8'));
+  const valid = items.filter((it) =>
+    typeof it.id === 'string' && typeof it.title === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(it.date) &&
+    /^https:\/\/[a-z0-9.-]+\.gov\//.test(it.sourceUrl) && typeof it.source === 'string' && KEYS.includes(it.type) &&
+    Array.isArray(it.what) && it.what.length >= 1 && it.what.length <= 3 &&
+    Array.isArray(it.signs) && it.signs.length >= 2 && it.signs.length <= 4 &&
+    Array.isArray(it.actions) && it.actions.length >= 2 && it.actions.length <= 3);
+  if (valid.length !== items.length) throw new Error(`${items.length - valid.length} happening item(s) failed the schema check`);
+  valid.sort((a, b) => b.date.localeCompare(a.date));
+  const body = JSON.stringify({ kind: 'happening', generatedAt, items: valid.slice(0, 20) });
+  fs.writeFileSync(path.join(OUT, 'happening.json'), JSON.stringify({ body, sig: sign(body) }));
+  report.push({ id: 'happening', ok: true, items: valid.length });
+} catch (e) { report.push({ id: 'happening', ok: false, error: e.message }); }
 fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify({ generatedAt, regions, report }, null, 1));
 console.log(JSON.stringify({ generatedAt, regions, report }, null, 1));
 

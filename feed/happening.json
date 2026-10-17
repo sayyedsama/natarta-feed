@@ -1,0 +1,159 @@
+{
+  "_note": "Curated 'Happening now' items for the Natarta Stay safe guide. Each item is written in Natarta's own words from an official public source (linked, dated). Keep it calm: no fear words, no politics. Schema is checked by feed/build-feed.mjs; the Action signs it into happening.json.",
+  "items": [
+    {
+      "id": "health-plan-sites-open-enrollment",
+      "title": "Fake health plan sites during Open Enrollment",
+      "date": "2026-09-28",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/09/what-know-ahead-open-enrollment-avoid-health-insurance-scams",
+      "type": "links",
+      "what": [
+        "Open Enrollment for Medicare and Marketplace plans is a busy time, and fake plan sites show up with it.",
+        "Some pay to appear at the top of search results and use look-alike web addresses and logos."
+      ],
+      "signs": [
+        "A search result marked \"Ad\" or \"Sponsored\" that looks official",
+        "A web address close to Medicare.gov or HealthCare.gov, but not quite",
+        "Pressure to sign up on the phone today"
+      ],
+      "actions": [
+        "Type Medicare.gov or HealthCare.gov yourself, or call Medicare at 800-633-4227.",
+        "Scroll past ads and look for the .gov ending.",
+        "Report anything odd at ReportFraud.ftc.gov."
+      ]
+    },
+    {
+      "id": "parking-meter-qr-codes",
+      "title": "Fake QR codes on parking meters",
+      "date": "2026-09-03",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/09/see-qr-code-parked-somewhere-dont-scan-ityet",
+      "type": "qr",
+      "what": [
+        "People have found QR stickers placed over the real codes on parking meters.",
+        "Scanning one can open a look-alike payment page that asks for your card."
+      ],
+      "signs": [
+        "A sticker that sits on top of another code",
+        "A link with spelling mistakes or swapped letters",
+        "A page that asks for card details right away"
+      ],
+      "actions": [
+        "Pay at the meter or in the city's official parking app.",
+        "Preview the link first. Natarta's Scan shows where a code goes.",
+        "Already entered details? Change that password and check your card statement."
+      ]
+    },
+    {
+      "id": "cloned-car-dealer-sites",
+      "title": "Copied car dealership websites",
+      "date": "2026-09-01",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/09/scammers-are-spoofing-car-dealership-websites-what-you-need-know",
+      "type": "links",
+      "what": [
+        "Some websites copy a real dealer's logos, listings and photos, sometimes with AI.",
+        "They ask buyers to pay upfront for a car that never arrives."
+      ],
+      "signs": [
+        "A rare or hard-to-find car at a great price",
+        "Payment by wire transfer only, before you see the car",
+        "No in-person visit or independent inspection allowed"
+      ],
+      "actions": [
+        "Search the dealer's name with words like \"review\" or \"complaint\".",
+        "Ask to see the car in person, or hire an inspection service.",
+        "Walk away from upfront, wire-only payment."
+      ]
+    },
+    {
+      "id": "veterans-savings-postcards",
+      "title": "Postcards about extra veterans benefits",
+      "date": "2026-08-24",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/08/how-spot-postcard-scam-targeting-veterans",
+      "type": "mail",
+      "what": [
+        "Veterans are getting postcards about a \"Veterans Savings Program\" that offers extra monthly money.",
+        "That program doesn't exist. The postcard wants you to call and give personal or bank details."
+      ],
+      "signs": [
+        "A program name the VA has never mentioned to you",
+        "\"Call right away or miss out\"",
+        "Real benefit names used to make it look official"
+      ],
+      "actions": [
+        "Don't call the number on the postcard.",
+        "Questions about benefits? Call the VA Benefits Hotline at 1-800-827-1000.",
+        "Report it at ReportFraud.ftc.gov or VSAFE.gov."
+      ]
+    },
+    {
+      "id": "brushing-packages",
+      "title": "Packages you never ordered",
+      "date": "2026-08-20",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/08/unexpected-package-you-got-could-be-brushing-scam",
+      "type": "qr",
+      "what": [
+        "Some people are getting cheap, random items they didn't order. Sellers do this to post fake reviews in your name.",
+        "Some packages include a QR code that leads to a sign-in page built to collect passwords."
+      ],
+      "signs": [
+        "A package addressed to you that you didn't order",
+        "Something small and random inside, like seeds or wipes",
+        "A note saying \"scan to see who sent this\" or \"scan to return\""
+      ],
+      "actions": [
+        "You don't have to pay for it or send it back.",
+        "Don't scan the QR code inside.",
+        "Change your shopping passwords and check your credit free at AnnualCreditReport.com."
+      ]
+    },
+    {
+      "id": "bill-pay-lookalikes",
+      "title": "Look-alike bill payment sites in search results",
+      "date": "2026-08-17",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/08/searching-online-bill-pay-impersonators",
+      "type": "links",
+      "what": [
+        "When you search for a company to pay a bill, the top result can be a paid ad from a different business.",
+        "You might pay extra fees, or pay someone who isn't your provider."
+      ],
+      "signs": [
+        "An \"Ad\" or \"Sponsored\" label next to the result",
+        "A site name that's a little different from your provider's",
+        "Extra \"service\" fees at checkout"
+      ],
+      "actions": [
+        "Type your provider's website yourself, or use the address on your bill.",
+        "Scroll past paid ads in search results.",
+        "Pay in the company's own app when you can."
+      ]
+    },
+    {
+      "id": "trading-coach-posts",
+      "title": "\"Learn to trade\" coaches on social media",
+      "date": "2026-08-07",
+      "source": "FTC Consumer Alerts",
+      "sourceUrl": "https://consumer.ftc.gov/consumer-alerts/2026/08/how-spot-investment-training-scams-social-media",
+      "type": "links",
+      "what": [
+        "Social media is full of trading coaches showing off fancy cars and trips.",
+        "Trading is risky, and no one can promise big returns with little risk."
+      ],
+      "signs": [
+        "Guaranteed profits or \"no risk\"",
+        "Luxury photos used as proof it works",
+        "Pressure to join fast or bring in friends"
+      ],
+      "actions": [
+        "Search the name with words like \"review\" or \"complaint\".",
+        "Look up anyone selling investments at Investor.gov.",
+        "Take your time and talk it over with someone who has your back."
+      ]
+    }
+  ]
+}
