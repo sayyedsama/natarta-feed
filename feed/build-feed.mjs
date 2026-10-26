@@ -13,6 +13,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const nacl = require('tweetnacl');
+import { fetchFtcPacked } from './ftc-phones.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const { sources } = JSON.parse(fs.readFileSync(path.join(here, 'sources.json'), 'utf8'));
 const OUT = path.join(here, '..', 'feed-out');
@@ -105,6 +106,24 @@ try {
   fs.writeFileSync(path.join(OUT, 'phones.json'), JSON.stringify({ body, sig: sign(body) }));
   report.push({ id: 'fcc-phones', ok: true, items: Object.keys(numbers).length });
 } catch (e) { report.push({ id: 'fcc-phones', ok: false, error: e.message }); }
+// FTC Do Not Call complaints by number, 2016 on (public-domain FTC + NANPA data, CC0 aggregation by
+// usacallerlookup/ftc-robocall-dataset on GitHub, refreshed monthly). Packed into a compact lookup the phone
+// downloads whole and searches on the device; a number is never sent anywhere. No caller names exist in it.
+// If GitHub is unreachable this run, the last published signed file is carried over so the site never loses it.
+try {
+  const f = await fetchFtcPacked({ ua: UA });
+  const body = JSON.stringify({ kind: 'ftc-phones', v: 1, generatedAt, coverage: f.coverage, datasetGenerated: f.datasetGenerated, numbers: f.numbers, complaints: f.complaints,
+    source: 'FTC Do Not Call complaint data with NANPA carrier and rate center, aggregated by number (github.com/usacallerlookup/ftc-robocall-dataset)', license: 'CC0 1.0 aggregation of US public-domain data',
+    note: 'A complaint is not proof. Caller ID is often spoofed. Carrier and rate center show where the number block was issued.',
+    subjects: f.subjects, carriers: f.carriers, places: f.places, p: f.p });
+  if (!/^[\x00-\x7f]*$/.test(body)) throw new Error('ftc-phones body must be ASCII');
+  fs.writeFileSync(path.join(OUT, 'ftc-phones.json'), JSON.stringify({ body, sig: sign(body) }));
+  report.push({ id: 'ftc-phones', ok: true, items: f.numbers, bytes: body.length, coverage: f.coverage });
+} catch (e) {
+  let carried = false;
+  try { const r = await fetch('https://sayyedsama.github.io/natarta-feed/ftc-phones.json', { signal: AbortSignal.timeout(60000) }); if (r.ok) { const t = await r.text(); if (JSON.parse(t).sig) { fs.writeFileSync(path.join(OUT, 'ftc-phones.json'), t); carried = true; } } } catch { /* nothing to carry */ }
+  report.push({ id: 'ftc-phones', ok: false, error: e.message, carriedOver: carried });
+}
 // Happening now: curated items (own words, official source + date), schema-checked, then signed like every other file.
 try {
   const KEYS = ['texts', 'emails', 'mail', 'links', 'phone', 'qr', 'news', 'media'];
