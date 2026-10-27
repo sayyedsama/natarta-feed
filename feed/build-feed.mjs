@@ -14,6 +14,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const nacl = require('tweetnacl');
 import { fetchFtcPacked } from './ftc-phones.mjs';
+import { fetchCryptoPacked } from './crypto-scams.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const { sources } = JSON.parse(fs.readFileSync(path.join(here, 'sources.json'), 'utf8'));
 const OUT = path.join(here, '..', 'feed-out');
@@ -123,6 +124,22 @@ try {
   let carried = false;
   try { const r = await fetch('https://sayyedsama.github.io/natarta-feed/ftc-phones.json', { signal: AbortSignal.timeout(60000) }); if (r.ok) { const t = await r.text(); if (JSON.parse(t).sig) { fs.writeFileSync(path.join(OUT, 'ftc-phones.json'), t); carried = true; } } } catch { /* nothing to carry */ }
   report.push({ id: 'ftc-phones', ok: false, error: e.message, carriedOver: carried });
+}
+// Crypto phishing sites: MetaMask's open eth-phishing-detect blacklist (DBAD public license, credit given in the app's
+// Credits and in the file), packed as sorted 64-bit hashes. The phone checks sites on the device; nothing is sent.
+// If GitHub is unreachable this run, the last published signed file is carried over.
+try {
+  const c = await fetchCryptoPacked({ ua: UA });
+  const body = JSON.stringify({ kind: 'crypto-phishing', v: 1, generatedAt, count: c.count, listVersion: c.version, whitelist: c.whitelist,
+    source: 'MetaMask eth-phishing-detect blacklist (github.com/MetaMask/eth-phishing-detect)', license: "DBAD (Don't Be A Dick) public license, (C) 2018 kumavis",
+    note: 'A site not on this list is not proof it is safe. New fake sites appear every day.', hashesB64: c.hashesB64 });
+  if (!/^[\x00-\x7f]*$/.test(body)) throw new Error('crypto-scams body must be ASCII');
+  fs.writeFileSync(path.join(OUT, 'crypto-scams.json'), JSON.stringify({ body, sig: sign(body) }));
+  report.push({ id: 'crypto-scams', ok: true, items: c.count, bytes: body.length });
+} catch (e) {
+  let carried = false;
+  try { const r = await fetch('https://sayyedsama.github.io/natarta-feed/crypto-scams.json', { signal: AbortSignal.timeout(60000) }); if (r.ok) { const t = await r.text(); if (JSON.parse(t).sig) { fs.writeFileSync(path.join(OUT, 'crypto-scams.json'), t); carried = true; } } } catch { /* nothing to carry */ }
+  report.push({ id: 'crypto-scams', ok: false, error: e.message, carriedOver: carried });
 }
 // Happening now: curated items (own words, official source + date), schema-checked, then signed like every other file.
 try {
