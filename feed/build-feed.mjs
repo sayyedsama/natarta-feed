@@ -15,6 +15,7 @@ const require = createRequire(import.meta.url);
 const nacl = require('tweetnacl');
 import { fetchFtcPacked } from './ftc-phones.mjs';
 import { fetchCryptoPacked } from './crypto-scams.mjs';
+import { fetchSpywarePacked, fetchIosLines } from './spyware.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const { sources } = JSON.parse(fs.readFileSync(path.join(here, 'sources.json'), 'utf8'));
 const OUT = path.join(here, '..', 'feed-out');
@@ -157,6 +158,26 @@ try {
   fs.writeFileSync(path.join(OUT, 'happening.json'), JSON.stringify({ body, sig: sign(body) }));
   report.push({ id: 'happening', ok: true, items: valid.length });
 } catch (e) { report.push({ id: 'happening', ok: false, error: e.message }); }
+// Device Guard: known spyware and stalkerware web addresses (MVT MIT, Amnesty CC BY, Echap CC BY, Zero Breach CC0;
+// Citizen Lab's non-commercial repo is skipped), packed as sorted 64-bit hashes, plus Apple's current iPhone software
+// versions for the on-phone "is my software up to date" check. Checked on the phone; nothing is sent.
+// If a source is unreachable this run, the last published signed file is carried over.
+try {
+  const s = await fetchSpywarePacked({ ua: UA });
+  let ios = null;
+  try { const lines = await fetchIosLines(); ios = { lines, latest: lines[lines.length - 1], source: 'Apple software update catalog (gdmf.apple.com)' }; } catch { /* the app shows the version without a comparison */ }
+  const body = JSON.stringify({ kind: 'spyware-iocs', v: 1, generatedAt, spyware: s.spyware, stalkerware: s.stalkerware, sources: s.sources,
+    excluded: 'The Citizen Lab malware-indicators (CC BY-NC-SA, non-commercial) is not used.', ios,
+    note: 'A web address not on this list is not proof it is safe. New spyware addresses appear all the time, and some listed addresses are old.',
+    spywareB64: s.spywareB64, stalkerwareB64: s.stalkerwareB64 });
+  if (!/^[\x00-\x7f]*$/.test(body)) throw new Error('spyware-iocs body must be ASCII');
+  fs.writeFileSync(path.join(OUT, 'spyware-iocs.json'), JSON.stringify({ body, sig: sign(body) }));
+  report.push({ id: 'spyware-iocs', ok: true, items: s.spyware + s.stalkerware, bytes: body.length, ios: ios?.latest ?? null });
+} catch (e) {
+  let carried = false;
+  try { const r = await fetch('https://sayyedsama.github.io/natarta-feed/spyware-iocs.json', { signal: AbortSignal.timeout(60000) }); if (r.ok) { const t = await r.text(); if (JSON.parse(t).sig) { fs.writeFileSync(path.join(OUT, 'spyware-iocs.json'), t); carried = true; } } } catch { /* nothing to carry */ }
+  report.push({ id: 'spyware-iocs', ok: false, error: e.message, carriedOver: carried });
+}
 fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify({ generatedAt, regions, report }, null, 1));
 console.log(JSON.stringify({ generatedAt, regions, report }, null, 1));
 
