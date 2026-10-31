@@ -26,7 +26,7 @@ export const ALLOWED_OWNERS = {
 /** Shared hosting / platform names: never listed whole (only a named sub-address can be listed). */
 export const SHARED = ['appspot.com', 'firebaseio.com', 'firebaseapp.com', 'web.app', 'azurewebsites.net', 'herokuapp.com', 'duckdns.org', 'ngrok.io',
   'github.io', 'blogspot.com', 'wordpress.com', 'amazonaws.com', 'cloudfront.net', 'googleapis.com', 'google.com', 'apple.com', 'icloud.com',
-  'microsoft.com', 'windows.net', 'netlify.app', 'vercel.app', 'pages.dev', 'workers.dev', 'imwork.net', 'no-ip.com', 'ddns.net', 'kesug.com'];
+  'microsoft.com', 'windows.net', 'netlify.app', 'vercel.app', 'pages.dev', 'workers.dev', 'imwork.net', 'no-ip.com', 'ddns.net', 'kesug.com', 'github.com', 'githubusercontent.com', 'gitlab.com', 'netnanny.com'];
 
 /** Same two 32-bit hashes as src/services/hash64.ts (a test keeps them identical). */
 export function h64(s) {
