@@ -144,19 +144,31 @@ try {
   report.push({ id: 'crypto-scams', ok: false, error: e.message, carriedOver: carried });
 }
 // More scam and phishing sites: CERT Polska Warning List (free for any use) + The Block List Project phishing and scam
-// lists (Unlicense / MIT), packed as sorted 64-bit hashes like crypto-scams.json. Matched on the phone; nothing is sent.
+// lists (Unlicense / MIT) + PhishDestroy (CC BY 4.0), with a shared-host guard, packed as sorted 64-bit hashes like
+// crypto-scams.json. Matched on the phone; nothing is sent. Not listed never means safe.
 try {
   const m = await fetchMorePacked({ ua: UA });
+  // A source marked keepPrevious (PhishDestroy) came back short (under 100 entries) or failed: keep the previous signed
+  // copy if it is less than 48 hours old, rather than ship a list without it. Older than that, build without it.
+  if (m.missing.length) {
+    const prev = await fetch('https://sayyedsama.github.io/natarta-feed/more-scam-sites.json', { signal: AbortSignal.timeout(60000) }).then((r) => (r.ok ? r.text() : null)).catch(() => null);
+    const pb = prev && (() => { try { const o = JSON.parse(prev); return o.sig ? JSON.parse(o.body) : null; } catch { return null; } })();
+    if (pb && Date.now() - Date.parse(pb.generatedAt) < 48 * 3600e3 && m.missing.every((id) => (pb.sources || []).some((x) => x.id === id))) {
+      fs.writeFileSync(path.join(OUT, 'more-scam-sites.json'), prev);
+      report.push({ id: 'more-scam-sites', ok: true, keptPrevious: true, missing: m.missing.join(' '), items: pb.count });
+      throw Object.assign(new Error('kept previous'), { kept: true });
+    }
+  }
   const body = JSON.stringify({ kind: 'more-scam-sites', v: 1, generatedAt, count: m.count, sources: m.sources,
-    note: 'A site not on these lists is not proof it is safe. New fake sites appear every day. Listing a source does not mean it endorses or works with Natarta.', hashesB64: m.hashesB64 });
+    credits: m.sources.filter((x) => x.credit).map((x) => x.credit), note: 'Not listed never means safe: a site not on these lists is not proof it is safe. New fake sites appear every day. Listing a source does not mean it endorses or works with Natarta.', hashesB64: m.hashesB64 });
   if (!/^[\x00-\x7f]*$/.test(body)) throw new Error('more-scam-sites body must be ASCII');
   fs.writeFileSync(path.join(OUT, 'more-scam-sites.json'), JSON.stringify({ body, sig: sign(body) }));
   report.push({ id: 'more-scam-sites', ok: true, items: m.count, bytes: body.length, sources: m.sources.map((x) => x.id + ':' + x.count).join(' ') });
-} catch (e) {
+} catch (e) { if (!e.kept) {
   let carried = false;
   try { const r = await fetch('https://sayyedsama.github.io/natarta-feed/more-scam-sites.json', { signal: AbortSignal.timeout(60000) }); if (r.ok) { const t = await r.text(); if (JSON.parse(t).sig) { fs.writeFileSync(path.join(OUT, 'more-scam-sites.json'), t); carried = true; } } } catch { /* nothing to carry */ }
   report.push({ id: 'more-scam-sites', ok: false, error: e.message, carriedOver: carried });
-}
+} }
 // Happening now: curated items (own words, official source + date), schema-checked, then signed like every other file.
 try {
   const KEYS = ['texts', 'emails', 'mail', 'links', 'phone', 'qr', 'news', 'media'];

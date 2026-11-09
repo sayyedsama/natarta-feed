@@ -1,3 +1,14 @@
-{ "name": "natarta-feed", "private": true, "type": "module",
-  "scripts": { "build:feed": "node feed/build-feed.mjs", "build:blocklist": "node scripts/update-blocklist.mjs" },
-  "dependencies": { "tweetnacl": "1.0.3", "typescript": "~6.0.3" } }
+{
+ "name": "natarta-feed",
+ "private": true,
+ "type": "module",
+ "scripts": {
+  "build:feed": "node feed/build-feed.mjs",
+  "build:blocklist": "node scripts/update-blocklist.mjs",
+  "test": "node test/more-scam-sites.test.mjs"
+ },
+ "dependencies": {
+  "tweetnacl": "1.0.3",
+  "typescript": "~6.0.3"
+ }
+}

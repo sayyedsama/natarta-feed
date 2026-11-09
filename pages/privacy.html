@@ -54,10 +54,10 @@ nav.foot a{display:inline-block;min-height:44px;line-height:44px}
 </header>
 <div class="bar" role="presentation"></div>
 <h1>Privacy Policy</h1>
-<p class="updated">Last updated October 30, 2026</p>
+<p class="updated">Last updated November 1, 2026</p>
 <section aria-labelledby="who-we-are">
 <h2 id="who-we-are">Who we are</h2>
-<p>Natarta (“Natarta”, “we” or “us”) is an independent project run by Salman, based in the United States. Natarta operates the Natarta app. You can reach us at <a href="mailto:support@natarta.com">support@natarta.com</a>.</p>
+<p>Natarta (“Natarta”, “we” or “us”) is an independent project based in the United States. Natarta operates the Natarta app; our Terms of Use name the operator. You can reach us at <a href="mailto:support@natarta.com">support@natarta.com</a>.</p>
 </section>
 <section aria-labelledby="the-short-version">
 <h2 id="the-short-version">The short version</h2>
@@ -75,6 +75,10 @@ nav.foot a{display:inline-block;min-height:44px;line-height:44px}
 <p>Natarta AI is off unless you say yes. If you do, the message you checked (with names, phone numbers, email addresses, codes and link paths hidden on your phone first) and any question you ask are sent to Natarta’s own server. It runs an open AI model (gpt-oss) on Cloudflare Workers AI, our hosting provider’s AI service. Your text is not sent to any other AI company, is not saved with your question or answer, and is not used to train AI.</p>
 <p>So the same scam gets a fast answer for the next person, the server may keep a scrambled fingerprint of the hidden text together with the verdict for up to 7 days. It never keeps the text itself, and the fingerprint can’t be turned back into it. Follow-up questions are never kept.</p>
 </section>
+<section aria-labelledby="fact-check-optional-">
+<h2 id="fact-check-optional-">Fact-check (optional)</h2>
+<p>Fact-check runs only when you tap “Fact-check this”. Then the words you checked, with phone numbers, email addresses, codes and link paths hidden first, are sent to Natarta’s own server. The server searches public research and reference libraries (Europe PMC and OpenAlex for peer-reviewed research, Wikipedia for background, and a public archive of published fact-checks when it is available) for your question or its key words, and an open AI model (gpt-oss) on Cloudflare Workers AI writes a short answer from those sources only, citing each one. The libraries see a search from Natarta’s server, not from you. Your text is not saved, is not sent to any other AI company and is not used to train AI.</p>
+</section>
 <section aria-labelledby="scam-alerts-and-your-area-optional-">
 <h2 id="scam-alerts-and-your-area-optional-">Scam alerts and your area (optional)</h2>
 <p>If you turn on local alerts, Natarta keeps only your general area (like a ZIP code or city and state) on your phone. If you choose “Use my approximate location”, your phone works out the area once and immediately discards the exact position. We never track where you go.</p>
@@ -91,14 +95,34 @@ nav.foot a{display:inline-block;min-height:44px;line-height:44px}
 </section>
 <section aria-labelledby="safety-list-updates">
 <h2 id="safety-list-updates">Safety list updates</h2>
-<p>About once a week the app downloads an updated list of known scam websites the same way, including a list of fake crypto and wallet websites (from MetaMask’s open phishing list). Nothing about you is sent, and the websites you check are matched on your phone.</p>
+<p>About once a week the app downloads an updated list of known scam websites the same way, including a list of fake crypto and wallet websites (from MetaMask’s open phishing list) and more scam and phishing website lists (from CERT Polska, The Block List Project and PhishDestroy). Nothing about you is sent, and the websites you check are matched on your phone.</p>
 <p>The app also downloads, the same way, public headlines from trusted news outlets and fact-checkers, short “Happening now” scam reports based on official government alerts, and lists of phone numbers reported to the FCC and to the FTC’s Do Not Call program (from the agencies’ public complaint data). Numbers you check are looked up on your phone and never sent.</p>
 <p>If you tap “Check how old this site is”, only that website’s name (like example.com) is sent to rdap.org, a free public domain-registry service. Nothing else you checked is sent.</p>
+</section>
+<section aria-labelledby="scam-site-blocking-turn-on-protection-">
+<h2 id="scam-site-blocking-turn-on-protection-">Scam-site blocking (Turn on protection)</h2>
+<p>When you turn on protection, Natarta sets your phone to look up website names through a safety filter that refuses sites known for scams and malware. On iPhone, Natarta saves this setting itself and it shows in Settings › General › VPN &amp; Device Management › DNS as Natarta; on Android you paste the filter’s address into Private DNS. Today the filter is Cloudflare’s free security service (security.cloudflare-dns.com). Lookups are encrypted and go to that filter, never to Natarta, and Natarta keeps no list of the sites you visit. Turning protection off in Natarta removes the iPhone setting. It blocks many known bad sites, not all of them.</p>
 </section>
 <section aria-labelledby="device-guard">
 <h2 id="device-guard">Device Guard</h2>
 <p>Device Guard runs entirely on your phone. About once a week the app downloads, the same way, a list of web addresses that published security research ties to spyware and stalkerware (from Amnesty International, the MVT project, Echap and the Zero Breach Toolkit), along with Apple’s public list of current iPhone software versions. Links you check are matched on your phone and never sent.</p>
-<p>To show how well your phone is protected, the app reads your phone’s software version and whether a screen lock is set (just on or off, never the code itself). The steps you tick in the health check, and your phone health score, are saved only on your phone. None of this is uploaded, and Natarta can’t see your other apps, messages or files.</p>
+<p>To show how well your phone is protected, the app reads your phone’s software version and whether a screen lock is set (on or off, never the code itself). The steps you tick in the health check, and your phone health score, are saved only on your phone. None of this is uploaded, and Natarta can’t see your other apps, messages or files.</p>
+</section>
+<section aria-labelledby="password-check-optional-">
+<h2 id="password-check-optional-">Password check (optional)</h2>
+<p>If you use the password check, your password never leaves your phone or browser. Natarta turns it into a scrambled fingerprint (a SHA-1 hash) on your device and sends only the first 5 characters of that fingerprint to Have I Been Pwned’s free Pwned Passwords service. The service sends back hundreds of fingerprints that start the same way, and your device compares them itself. Neither Natarta nor the service learns your password, and nothing is saved.</p>
+</section>
+<section aria-labelledby="shop-check-optional-">
+<h2 id="shop-check-optional-">Shop check (optional)</h2>
+<p>If you check a shop’s website, only that website’s name (like example.com) is sent to two free public services: a domain-registry lookup, to see when the name was registered, and crt.sh, a public log of website security certificates, to see when the site first got one. On natarta.com this goes through our server first; we don’t save it. Nothing else you checked is sent. The shop’s own website is never contacted.</p>
+</section>
+<section aria-labelledby="checking-an-email-by-forwarding-it-optional-">
+<h2 id="checking-an-email-by-forwarding-it-optional-">Checking an email by forwarding it (optional)</h2>
+<p>If you forward an email to <a href="mailto:check@natarta.com">check@natarta.com</a>, our mail service checks it with the same built-in checks as the app and sends one reply to the address you forwarded from. We don’t save the email, your address or the result, and nothing is used to train AI. To stop abuse, we keep a scrambled (hashed) form of your address for one hour to count how many emails it sent, and a daily total with no addresses. Your own email provider and ours (Cloudflare) handle the message on the way, under their own policies.</p>
+</section>
+<section aria-labelledby="guardian-applications-and-talk-requests-optional-">
+<h2 id="guardian-applications-and-talk-requests-optional-">Guardian applications and talk requests (optional)</h2>
+<p>If you send the Natarta Guardians application or a talk request from the app or natarta.com, we store what you typed (your organization’s name, your name, your work email and the details you add) with the time, and use it only to review the application or plan the talk and reply to you. We don’t store your internet address or device details with it, and we never share it. It’s deleted after 12 months if you don’t go ahead.</p>
 </section>
 <section aria-labelledby="feedback-optional-">
 <h2 id="feedback-optional-">Feedback (optional)</h2>
