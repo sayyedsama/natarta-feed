@@ -1,5 +1,7 @@
 # Free: builds the signed Local Scam Alerts feed every 3 hours and publishes it to GitHub Pages.
 # Needs: repo secret NATARTA_FEED_SECRET_KEY; Settings → Pages → Source: GitHub Actions.
+# After each deploy, "verify" fetches the live feed and fails loudly if it isn't the one just built, so a stale
+# feed never goes unnoticed. "keepalive" re-enables this schedule so GitHub never pauses it after 60 quiet days.
 name: scam-feed
 on:
   schedule: [{ cron: '17 */3 * * *' }]
@@ -8,13 +10,20 @@ permissions: { contents: read, pages: write, id-token: write }
 concurrency: { group: scam-feed, cancel-in-progress: true }
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      generated: ${{ steps.feed.outputs.generated }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
-        with: { node-version: 22 }
-      - run: npm install --no-audit --no-fund
-      - run: node feed/build-feed.mjs
+        with: { node-version: 24, cache: npm }
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - id: feed
+        run: |
+          node feed/build-feed.mjs
+          echo "generated=$(node -p "require('./feed-out/index.json').generatedAt")" >> "$GITHUB_OUTPUT"
         env: { NATARTA_FEED_SECRET_KEY: '${{ secrets.NATARTA_FEED_SECRET_KEY }}' }
       - run: node scripts/update-blocklist.mjs && cp dist-rulepack/rulepack.json feed-out/rulepack.json
       - run: cp pages/thanks.html pages/privacy.html pages/terms.html pages/r.html feed-out/
@@ -22,7 +31,33 @@ jobs:
         with: { path: feed-out }
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     environment: { name: github-pages }
     steps:
       - uses: actions/deploy-pages@v5
+  verify:
+    needs: [build, deploy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Live feed is the one just built
+        env: { WANT: '${{ needs.build.outputs.generated }}' }
+        run: |
+          base=https://sayyedsama.github.io/natarta-feed
+          for i in $(seq 1 20); do
+            got=$(curl -fsS "$base/index.json?v=$GITHUB_RUN_ID-$i" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).generatedAt))" || true)
+            if [ "$got" = "$WANT" ]; then
+              curl -fsS -o /dev/null "$base/rulepack.json?v=$GITHUB_RUN_ID" && echo "Live feed $got and rulepack OK" && exit 0
+            fi
+            echo "Try $i: live=$got want=$WANT"; sleep 15
+          done
+          echo "::error::Live feed did not update to $WANT"; exit 1
+  keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: { actions: write }
+    steps:
+      - run: gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/scam-feed.yml/enable"
+        env: { GH_TOKEN: '${{ github.token }}' }
